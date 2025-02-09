@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonder Shop</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+          display: flex;
+          justify-content: center;
+        }
+
+        .button {
+            background: #4B4BF7;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Product Grid */
+        .products {
+            padding: 2rem;
+            display: grid;
+            /* justify-content: space-between; */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            border: 1px solid #eee;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .product-info {
+            margin-top: 1rem;
+        }
+
+        /* Cart */
+        .cart {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 2rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        /* Checkout Form */
+        .checkout {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .long-term-section {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin: 4rem 0;
+        }
+
+        .background-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .content-overlay {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .story-button {
+            background: white;
+            color: black;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            text-decoration: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .story-button:hover {
+            transform: translateY(-2px);
+            background-color: #f0f0f0;
+        }
+
+        /* our fav */
+        .container2 {
+    /* max-width: 1200px;
+    margin: 0 auto; */
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .browse-link {
+    color: #6366f1;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .browse-link:hover {
+    text-decoration: underline;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  
+  .product-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    background: #f5f5f5;
+  }
+  
+  .product-info {
+    padding: 16px 0;
+  }
+  
+  .product-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .product-price {
+    color: #666;
+    font-size: 16px;
+  }
+
+  .arrow {
+    display: inline-block;
+    margin-left: 4px;
+    transition: transform 0.2s;
+  }
+
+  .browse-link:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  
+  /* footer */
+  .footer {
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    padding: 64px 20px;
+  }
+
+  .nav-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  .nav-column h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #111;
+  }
+
+  .nav-links {
+    list-style: none;
+  }
+
+  .nav-links li {
+    margin-bottom: 12px;
+  }
+
+  .nav-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .nav-links a:hover {
+    color: #111;
+  }
+
+  .bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .newsletter {
+    padding: 32px;
+  }
+
+  .newsletter h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #111;
+  }
+
+  .newsletter p {
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+
+  .signup-form {
+    display: flex;
+    gap: 12px;
+  }
+
+  .signup-form input {
+    flex: 1;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .signup-form button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .signup-form button:hover {
+    background: #4f46e5;
+  }
+
+  .early-access {
+    background: #6366f1;
+    padding: 32px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .early-access h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .early-access p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .early-access a {
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .early-access a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .nav-columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bottom-section {
+      grid-template-columns: 1fr;
+    }
+    
+    .signup-form {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-columns {
+      grid-template-columns: 1fr;
+    }
+  }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="#" class="nav-link" onclick="showPage('home')">Home</a>
+            <a href="#" class="nav-link" onclick="showPage('products')">Shop</a>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="nav-link" onclick="showPage('cart')">Cart (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home-page">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Summer styles are finally here</h1>
+                <p>This year, our new summer collection will shelter you from the harsh elements of a world that doesn't care if you live or die.</p>
+                <a href="#" class="button" onclick="showPage('products')">Shop Collection</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-featured-category.jpg" height="400px" alt="Summer collection">
+            </div>
+        </section>
+        <section class="long-term-section">
+          <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-feature-section-full-width.jpg" alt="Shelf with products" class="background-image">
+          <div class="content-overlay">
+              <h2 class="section-title">Long-term thinking</h2>
+              <p class="section-description">
+                  We're committed to responsible, sustainable, and ethical manufacturing. Our 
+                  small-scale approach allows us to focus on quality and reduce our impact. We're 
+                  doing our best to delay the inevitable heat-death of the universe.
+              </p>
+              <a href="#" class="story-button">Read our story</a>
+          </div>
+      </section>
+
+      <div class="container2">
+        <div class="header">
+          <h1>Our Favorites</h1>
+          <a href="#" class="browse-link">
+            Browse all favorites
+            <span class="arrow">→</span>
+          </a>
+        </div>
+        
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-01.jpg" alt="Black Basic Tee" class="product-image" />
+            <div class="product-info">
+              <h2 class="product-title">Black Basic Tee</h2>
+              <p class="product-price">$32</p>
+            </div>
+          </div>
+          
+          <div class="product-card">
+            <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-02.jpg" alt="Off-White Basic Tee" class="product-image" />
+            <div class="product-info">
+              <h2 class="product-title">Off-White Basic Tee</h2>
+              <p class="product-price">$32</p>
+            </div>
+          </div>
+          
+          <div class="product-card">
+            <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-03.jpg" alt="Mountains Artwork Tee" class="product-image" />
+            <div class="product-info">
+              <h2 class="product-title">Mountains Artwork Tee</h2>
+              <p class="product-price">$36</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="nav-columns">
+          <div class="nav-column">
+            <h3>Products</h3>
+            <ul class="nav-links">
+              <li><a href="#">Bags</a></li>
+              <li><a href="#">Tees</a></li>
+              <li><a href="#">Objects</a></li>
+              <li><a href="#">Home Goods</a></li>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </div>
+    
+          <div class="nav-column">
+            <h3>Customer Service</h3>
+            <ul class="nav-links">
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">Warranty</a></li>
+              <li><a href="#">Secure Payments</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Find a store</a></li>
+            </ul>
+          </div>
+    
+          <div class="nav-column">
+            <h3>Company</h3>
+            <ul class="nav-links">
+              <li><a href="#">Who we are</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Privacy</a></li>
+            </ul>
+          </div>
+    
+          <div class="nav-column">
+            <h3>Legal</h3>
+            <ul class="nav-links">
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Return Policy</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Shipping Policy</a></li>
+            </ul>
+          </div>
+        </div>
+    
+        <div class="bottom-section">
+          <div class="newsletter">
+            <h2>Sign up for our newsletter</h2>
+            <p>The latest news, articles, and resources, sent to your inbox weekly.</p>
+            <form class="signup-form">
+              <input type="email" placeholder="Enter your email" />
+              <button type="submit">Sign up</button>
+            </form>
+          </div>
+    
+          <div class="early-access">
+            <h2>Get early access</h2>
+            <p>Did you sign up to the newsletter? If so, use the keyword we sent you to get access.</p>
+            <a href="#">Go now →</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Products Page -->
+    <div id="products-page" class="hidden">
+        <div class="products" id="products-grid"></div>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart-page" class="hidden">
+        <div class="cart">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-summary">
+                <h3>Subtotal: $<span id="cart-subtotal">0</span></h3>
+                <button class="button" onclick="showPage('checkout')">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkout-page" class="hidden">
+        <div class="checkout">
+            <div class="checkout-form">
+                <h2>Checkout</h2>
+                <form id="checkout-form" onsubmit="handleCheckout(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" required pattern="[0-9]{16}">
+                    </div>
+                    <button type="submit" class="button">Place Order</button>
+                </form>
+            </div>
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="order-items"></div>
+                <div id="order-total"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Jean Jacket",
+                price: 35,
+                color: "Black",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+            },
+            {
+                id: 2,
+                name: "Tee Shirt",
+                price: 32,
+                color: "Brown",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
+            },
+            {
+                id: 3,
+                name: "Basic Grey",
+                price: 35,
+                color: "Grey",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
+            },
+            {
+                id: 4,
+                name: "Art White",
+                price: 22,
+                color: "White",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
+            },
+            {
+                id: 5,
+                name: "Flex Black",
+                price: 35,
+                color: "White",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-01.jpg"
+            },
+            {
+                id: 6,
+                name: "Flex Shirt",
+                price: 30,
+                color: "Off-White",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-02.jpg"
+            },
+            {
+                id: 7,
+                name: "Art Red",
+                price: 35,
+                color: "Wine",
+                image: "https://tailwindui.com/plus-assets/img/ecommerce-images/home-page-03-favorite-03.jpg"
+            }
+        ];
+
+        // Shopping cart
+        let cart = [];
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('div[id$="-page"]').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(`${pageId}-page`).classList.remove('hidden');
+
+            if (pageId === 'products') {
+                displayProducts();
+            } else if (pageId === 'cart') {
+                displayCart();
+            } else if (pageId === 'checkout') {
+                displayOrderSummary();
+            }
+        }
+
+        // Display products
+        function displayProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.color}</p>
+                        <p>$${product.price}</p>
+                        <button class="button" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Cart functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        function displayCart() {
+            const cartItems = document.getElementById('cart-items');
+            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" style="width: 100px">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>${item.color}</p>
+                        <p>$${item.price}</p>
+                    </div>
+                    <button onclick="removeFromCart('${item.id}')" class="button">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('cart-subtotal').textContent = subtotal;
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            displayCart();
+        }
+
+        // Checkout functions
+        function displayOrderSummary() {
+            const orderItems = document.getElementById('order-items');
+            const orderTotal = document.getElementById('order-total');
+            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const shipping = 5;
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+
+            orderItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <p>${item.name} - ${item.color}</p>
+                    <p>$${item.price}</p>
+                </div>
+            `).join('');
+
+            orderTotal.innerHTML = `
+                <div style="margin-top: 1rem; border-top: 1px solid #ddd; padding-top: 1rem;">
+                    <p>Subtotal: $${subtotal}</p>
+                    <p>Shipping: $${shipping}</p>
+                    <p>Tax: $${tax.toFixed(2)}</p>
+                    <h3>Total: $${total.toFixed(2)}</h3>
+                </div>
+            `;
+        }
+
+        function handleCheckout(event) {
+            event.preventDefault();
+            alert('Order placed successfully!');
+            cart = [];
+            updateCartCount();
+            showPage('home');
+        }
+
+        // Initialize the page
+        showPage('home');
+    </script>
+</body>
+</html>
